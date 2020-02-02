@@ -6,7 +6,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Spatie\WebhookClient\Models\WebhookCall;
 
-class HandleLetter_Created
+class HandleDelivered
 {
     use Dispatchable, SerializesModels;
 
