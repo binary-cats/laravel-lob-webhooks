@@ -51,13 +51,13 @@ class WebhookSignature
      * @return bool
      * @throws BinaryCats\LobWebhooks\Exceptions\SignatureVerificationException when validation fails
      */
-    public function verify() : bool
+    public function verify(): bool
     {
         if (hash_equals($this->signature, $this->computeSignature())) {
             return true;
         }
 
-        throw new SignatureVerificationException("Signature Verification Failed", 500);
+        throw new SignatureVerificationException('Signature Verification Failed', 500);
     }
 
     /**

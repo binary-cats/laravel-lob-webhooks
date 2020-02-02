@@ -73,7 +73,7 @@ abstract class TestCase extends OrchestraTestCase
     }
 
     /**
-     * Compile lob.com siangure
+     * Compile lob.com siangure.
      *
      * @param  array       $payload
      * @param  int         $timestamp
