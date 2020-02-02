@@ -78,17 +78,17 @@ php artisan migrate
 ### Routing
 Finally, take care of the routing: At [the Lob.com dashboard](https://dashboard.lob.com/#/webhooks) you must configure at what url Lob.com webhooks should hit your app. In the routes file of your app you must pass that route to `Route::lobWebhooks()`:
 
-I like to group functionality by domain, so would suggest `webwooks\lob`
+I like to group functionality by domain, so would suggest `webhooks/lob`
 
 ```php
-Route::lobWebhooks('webwooks\lob');
+Route::lobWebhooks('webhooks/lob');
 ```
 
 Behind the scenes this will register a `POST` route to a controller provided by this package. Because Lob.com has no way of getting a csrf-token, you must add that route to the `except` array of the `VerifyCsrfToken` middleware:
 
 ```php
 protected $except = [
-    'webwooks\lob',
+    'webhooks/lob',
 ];
 ```
 
@@ -117,13 +117,13 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use BinaryCats\LobWebhooks\WebhookCall;
+use Spatie\WebhookClient\Models\WebhookCall;
 
 class HandleDeliveredSource implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
-    /** @var \BinaryCats\LobWebhooks\WebhookCall */
+    /** @var \Spatie\WebhookClient\Models\WebhookCall */
     public $webhookCall;
 
     public function __construct(WebhookCall $webhookCall)
@@ -181,7 +181,7 @@ Here's an example of such a listener:
 namespace App\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
-use BinaryCats\LobWebhooks\WebhookCall;
+use Spatie\WebhookClient\Models\WebhookCall;
 
 class LetterCreatedListener implements ShouldQueue
 {
@@ -205,8 +205,8 @@ The above example is only one way to handle events in Laravel. To learn the othe
 All incoming webhook requests are written to the database. This is incredibly valuable when something goes wrong while handling a webhook call. You can easily retry processing the webhook call, after you've investigated and fixed the cause of failure, like this:
 
 ```php
-use BinaryCats\LobWebhooks\WebhookCall;
 use BinaryCats\LobWebhooks\ProcessLobWebhookJob;
+use Spatie\WebhookClient\Models\WebhookCall;
 
 dispatch(new ProcessLobWebhookJob(WebhookCall::find($id)));
 ```
@@ -236,16 +236,16 @@ class MyCustomLobWebhookJob extends ProcessLobWebhookJob
 
 When needed might want to the package to handle multiple endpoints and secrets. Here's how to configurate that behaviour.
 
-If you are using the `Route::lobWebhooks` macro, you can append the `configKey` as follows (assuming your incoming route url is `lob-webhook-url`):
+If you are using the `Route::lobWebhooks` macro, you can append the `configKey` as follows (assuming your incoming route url is `webhooks/lob`):
 
 ```php
-Route::lobWebhooks('lob-webhook-url/{configKey}');
+Route::lobWebhooks('webhooks/lob/{configKey}');
 ```
 
 Alternatively, if you are manually defining the route, you can add `configKey` like so:
 
 ```php
-Route::post('lob-webhook-url/{configKey}', 'BinaryCats\LobWebhooks\LobWebhooksController');
+Route::post('webhooks/lob/{configKey}', 'BinaryCats\LobWebhooks\LobWebhooksController');
 ```
 
 If this route parameter is present, the verify middleware will look for the secret using a different config key, by appending the given the parameter value to the default config key. E.g. If Lob.com posts to `lob-webhook-url/my-named-secret` you'd add a new config named `signing_secret_my-named-secret`.
@@ -253,9 +253,9 @@ If this route parameter is present, the verify middleware will look for the secr
 Example config might look like:
 
 ```php
-// secret for when Lob.com posts to lob-webhook-url/account
+// secret for when Lob.com posts to webhooks/lob/account
 'signing_secret_account' => 'whsec_abc',
-// secret for when Lob.com posts to lob-webhook-url/connect
+// secret for when Lob.com posts to webhooks/lob/connect
 'signing_secret_connect' => 'whsec_123',
 ```
 
