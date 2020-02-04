@@ -51,7 +51,7 @@ class LobSignatureValidator implements SignatureValidator
     }
 
     /**
-     * Compile the payload
+     * Compile the payload.
      *
      * @param  Illuminate\Http\Request       $request
      * @return string
