@@ -34,19 +34,33 @@ class LobSignatureValidator implements SignatureValidator
     public function isValid(Request $request, WebhookConfig $config): bool
     {
         $signatureArray = [
-            'token' => json_encode($request->all()),
-            'timestamp'  => $request->header('lob-signature-timestamp'),
-            'signature'  => $request->header('lob-signature'),
+            'token'     => $this->payload($request),
+            'timestamp' => $request->header('lob-signature-timestamp'),
+            'signature' => $request->header('lob-signature'),
         ];
 
         $secret = $config->signingSecret;
 
         try {
-            Webhook::constructEvent($request->all(), $signatureArray, $secret);
+            Webhook::constructEvent($request->input(), $signatureArray, $secret);
         } catch (Exception $exception) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Compile the payload
+     *
+     * @param  Illuminate\Http\Request       $request
+     * @return string
+     */
+    protected function payload(Request $request): string
+    {
+        // Will decode the body into an object, not an array
+        $decoded = json_decode($request->getContent());
+        // recode back into string
+        return json_encode($decoded, JSON_UNESCAPED_SLASHES);
     }
 }
