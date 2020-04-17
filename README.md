@@ -42,8 +42,7 @@ return [
      * https://lob.com/docs#all_event_types
      */
     'jobs' => [
-        // Here is an example
-        // 'letter.created' => \BinaryCats\LobWebhooks\Jobs\HandleLetter_Created::class,
+        // 'letter_delivered' => \BinaryCats\LobWebhooks\Jobs\HandleDelivered::class,
     ],
 
     /*
@@ -109,8 +108,6 @@ There are two ways this package enables you to handle webhook requests: you can 
 If you want to do something when a specific event type comes in you can define a job that does the work. Here's an example of such a job:
 
 ```php
-<?php
-
 namespace App\Jobs\LobWebhooks;
 
 use Illuminate\Bus\Queueable;
@@ -148,7 +145,7 @@ After having created your job you must register it at the `jobs` array in the `l
 // config/lob-webhooks.php
 
 'jobs' => [
-    'letter.created' => \App\Jobs\LobWebhooks\HandleLetter_Created::class,
+    'letter_created' => \App\Jobs\Lob\Webhooks\HandleLetterCreatedJob::class,
 ],
 ```
 
@@ -176,8 +173,6 @@ protected $listen = [
 Here's an example of such a listener:
 
 ```php
-<?php
-
 namespace App\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
