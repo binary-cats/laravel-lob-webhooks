@@ -4,6 +4,8 @@
 
 This package will not handle what should be done after the webhook request has been validated and the right job or event is called. You should still code up any work (eg. regarding payments) yourself.
 
+<p align="center"><img src="https://repository-images.githubusercontent.com/236662465/eef33600-415a-11ea-9014-e7a0901fd82f" width="400"></p>
+
 Before using this package we highly recommend reading [the entire documentation on webhooks over at Lob.com](https://lob.com/docs#webhooks).
 
 This package is an almost line-to-line adapted copy of absolutely amazing [spatie/laravel-stripe-webhooks](https://github.com/spatie/laravel-stripe-webhooks). Give them your love!
