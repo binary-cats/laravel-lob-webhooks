@@ -26,9 +26,8 @@ class LobSignatureValidator implements SignatureValidator
     /**
      * True if the signature has been valiates.
      *
-     * @param  Illuminate\Http\Request       $request
-     * @param  Spatie\WebhookClient\WebhookConfig $config
-     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  Spatie\WebhookClient\WebhookConfig  $config
      * @return bool
      */
     public function isValid(Request $request, WebhookConfig $config): bool
@@ -53,7 +52,7 @@ class LobSignatureValidator implements SignatureValidator
     /**
      * Compile the payload.
      *
-     * @param  Illuminate\Http\Request       $request
+     * @param  Illuminate\Http\Request  $request
      * @return string
      */
     protected function payload(Request $request): string

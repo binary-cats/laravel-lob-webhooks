@@ -1,6 +1,6 @@
 <?php
 
-namespace BinaryCats\LobWebhooks\Tests;
+namespace Tests;
 
 use BinaryCats\LobWebhooks\ProcessLobWebhookJob;
 use Illuminate\Support\Facades\Event;
@@ -30,6 +30,7 @@ class LobWebhookCallTest extends TestCase
                     'object' => 'event_type',
                 ],
             ],
+            'url' => '/webhooks/lob.com',
         ]);
 
         $this->processLobWebhookJob = new ProcessLobWebhookJob($this->webhookCall);

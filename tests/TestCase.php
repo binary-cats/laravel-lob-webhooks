@@ -1,9 +1,8 @@
 <?php
 
-namespace BinaryCats\LobWebhooks\Tests;
+namespace Tests;
 
 use BinaryCats\LobWebhooks\LobWebhooksServiceProvider;
-use CreateWebhookCallsTable;
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Exceptions\Handler;
@@ -21,30 +20,31 @@ abstract class TestCase extends OrchestraTestCase
     /**
      * Set up the environment.
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
+        config()->set('database.default', 'sqlite');
+        config()->set('database.connections.sqlite', [
             'driver'   => 'sqlite',
             'database' => ':memory:',
             'prefix'   => '',
         ]);
-
-        config(['lob-webhooks.signing_secret' => 'secret']);
-    }
-
-    protected function setUpDatabase()
-    {
-        include_once __DIR__.'/../vendor/spatie/laravel-webhook-client/database/migrations/create_webhook_calls_table.php.stub';
-
-        (new CreateWebhookCallsTable())->up();
+        config()->set('lob-webhooks.signing_secret', 'secret');
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
-     *
+     * @return void
+     */
+    protected function setUpDatabase()
+    {
+        $migration = include __DIR__.'/../vendor/spatie/laravel-webhook-client/database/migrations/create_webhook_calls_table.php.stub';
+
+        $migration->up();
+    }
+
+    /**
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array
      */
     protected function getPackageProviders($app)
@@ -56,7 +56,8 @@ abstract class TestCase extends OrchestraTestCase
 
     protected function disableExceptionHandling()
     {
-        $this->app->instance(ExceptionHandler::class, new class extends Handler {
+        $this->app->instance(ExceptionHandler::class, new class extends Handler
+        {
             public function __construct()
             {
             }
@@ -75,9 +76,9 @@ abstract class TestCase extends OrchestraTestCase
     /**
      * Compile lob.com siangure.
      *
-     * @param  array       $payload
-     * @param  int         $timestamp
-     * @param  string|null $configKey
+     * @param  array  $payload
+     * @param  int  $timestamp
+     * @param  string|null  $configKey
      * @return string
      */
     protected function determineLobSignature(array $payload, $timestamp, string $configKey = null): string
