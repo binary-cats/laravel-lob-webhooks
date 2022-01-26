@@ -1,6 +1,6 @@
 <?php
 
-namespace BinaryCats\LobWebhooks\Tests;
+namespace Tests;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
@@ -8,6 +8,9 @@ use Spatie\WebhookClient\Models\WebhookCall;
 
 class IntegrationTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp(): void
     {
         parent::setUp();
@@ -46,6 +49,40 @@ class IntegrationTest extends TestCase
 
         $this->assertEquals('my.type', $webhookCall->payload['event_type']['id']);
         $this->assertEquals($payload, $webhookCall->payload);
+        $this->assertNull($webhookCall->exception);
+
+        Event::assertDispatched('lob-webhooks::my.type', function ($event, $eventPayload) use ($webhookCall) {
+            $this->assertInstanceOf(WebhookCall::class, $eventPayload);
+            $this->assertEquals($webhookCall->id, $eventPayload->id);
+
+            return true;
+        });
+
+        $this->assertEquals($webhookCall->id, cache('dummyjob')->id);
+    }
+
+    public function it_can_handle_a_valid_request_even_with_wrong_case()
+    {
+        $payload = [
+            'event_type' => [
+                'id' => 'mY.tYpE',
+                'key' => 'value',
+            ],
+        ];
+
+        $headers = [
+            'lob-signature-timestamp' => $timestamp = time(),
+            'lob-signature' => $this->determineLobSignature($payload, $timestamp),
+        ];
+
+        $this
+            ->postJson('lob-webhook-url', $payload, $headers)
+            ->assertSuccessful();
+
+        $this->assertCount(1, WebhookCall::get());
+
+        $webhookCall = WebhookCall::first();
+
         $this->assertNull($webhookCall->exception);
 
         Event::assertDispatched('lob-webhooks::my.type', function ($event, $eventPayload) use ($webhookCall) {

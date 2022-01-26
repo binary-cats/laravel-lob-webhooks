@@ -4,7 +4,8 @@ namespace BinaryCats\LobWebhooks;
 
 use BinaryCats\LobWebhooks\Exceptions\WebhookFailed;
 use Illuminate\Support\Arr;
-use Spatie\WebhookClient\ProcessWebhookJob;
+use Illuminate\Support\Str;
+use Spatie\WebhookClient\Jobs\ProcessWebhookJob;
 
 class ProcessLobWebhookJob extends ProcessWebhookJob
 {
@@ -28,11 +29,11 @@ class ProcessLobWebhookJob extends ProcessWebhookJob
             throw WebhookFailed::missingType($this->webhookCall);
         }
 
-        event("lob-webhooks::{$type}", $this->webhookCall);
+        event($this->determineEventKey($type), $this->webhookCall);
 
         $jobClass = $this->determineJobClass($type);
 
-        if ($jobClass === '') {
+        if ('' === $jobClass) {
             return;
         }
 
@@ -43,10 +44,35 @@ class ProcessLobWebhookJob extends ProcessWebhookJob
         dispatch(new $jobClass($this->webhookCall));
     }
 
+    /**
+     * @param  string  $eventType
+     * @return string
+     */
     protected function determineJobClass(string $eventType): string
     {
-        $jobConfigKey = str_replace('.', '_', $eventType);
+        return config($this->determineJobConfigKey($eventType), '');
+    }
 
-        return config("lob-webhooks.jobs.{$jobConfigKey}", '');
+    /**
+     * @param  string  $eventType
+     * @return string
+     */
+    protected function determineJobConfigKey(string $eventType): string
+    {
+        return Str::of($eventType)
+            ->replace('.', '_')
+            ->prepend('lob-webhooks.jobs.')
+            ->lower();
+    }
+
+    /**
+     * @param  string  $eventType
+     * @return string
+     */
+    protected function determineEventKey(string $eventType): string
+    {
+        return Str::of($eventType)
+            ->prepend('lob-webhooks::')
+            ->lower();
     }
 }

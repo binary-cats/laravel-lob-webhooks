@@ -5,12 +5,16 @@ namespace BinaryCats\LobWebhooks;
 use BinaryCats\LobWebhooks\Exceptions\SignatureVerificationException;
 use Illuminate\Support\Arr;
 
-class WebhookSignature
+/**
+ * @property string|int $timestamp Resolves from $signatureArray
+ * @property string $token Resolves from $signatureArray
+ */
+final class WebhookSignature
 {
     /**
      * Signature array.
      *
-     * @var array
+     * @var string[]
      */
     protected $signatureArray;
 
@@ -24,7 +28,7 @@ class WebhookSignature
     /**
      * Create new Signature.
      *
-     * @param array  $signatureArray
+     * @param string[]  $signatureArray
      * @param string $secret
      */
     public function __construct(array $signatureArray, string $secret)
@@ -38,9 +42,9 @@ class WebhookSignature
      *
      * @param  array  $signatureArray
      * @param  string $secret
-     * @return new static
+     * @return $this
      */
-    public static function make($signatureArray, string $secret)
+    public static function make($signatureArray, string $secret): self
     {
         return new static(Arr::wrap($signatureArray), $secret);
     }

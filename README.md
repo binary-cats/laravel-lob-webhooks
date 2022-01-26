@@ -42,6 +42,9 @@ return [
      *
      * You can find a list of Lob.com webhook types here:
      * https://lob.com/docs#all_event_types
+     * 
+     * The package will automatically convert the keys to lowercase, but you should
+     * be congnisant of the fact that array keys are case sensitive
      */
     'jobs' => [
         // 'letter_delivered' => \BinaryCats\LobWebhooks\Jobs\HandleDelivered::class,
@@ -105,6 +108,8 @@ If the signature is not valid, the request will not be logged in the `webhook_ca
 If something goes wrong during the webhook request the thrown exception will be saved in the `exception` column. In that case the controller will send a `500` instead of `200`.
 
 There are two ways this package enables you to handle webhook requests: you can opt to queue a job or listen to the events the package will fire.
+
+**Due to the apparent differences between MailGun sandbox and production environment event casing, the package will ALWAYS cast mailgun events to lowercase - so your configured keys must be lowercase, too**
 
 ### Handling webhook requests using jobs
 If you want to do something when a specific event type comes in you can define a job that does the work. Here's an example of such a job:

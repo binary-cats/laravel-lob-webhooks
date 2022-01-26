@@ -16,6 +16,9 @@ return [
      *
      * You can find a list of Lob.com webhook types here:
      * https://lob.com/docs#all_event_types
+     *
+     * The package will automatically convert the keys to lowercase, but you should
+     * be congnisant of the fact that array keys are case sensitive
      */
     'jobs' => [
         // 'letter.created' => \BinaryCats\LobWebhooks\Jobs\HandleLetter_Created::class,

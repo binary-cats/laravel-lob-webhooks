@@ -4,7 +4,7 @@ namespace BinaryCats\LobWebhooks;
 
 use BinaryCats\LobWebhooks\Contracts\WebhookEvent;
 
-class Event implements WebhookEvent
+final class Event implements WebhookEvent
 {
     /**
      * Attributes from the event.

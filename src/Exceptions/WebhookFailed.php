@@ -5,7 +5,7 @@ namespace BinaryCats\LobWebhooks\Exceptions;
 use Exception;
 use Spatie\WebhookClient\Models\WebhookCall;
 
-class WebhookFailed extends Exception
+final class WebhookFailed extends Exception
 {
     public static function signingSecretNotSet(): self
     {
