@@ -3,7 +3,6 @@
 namespace Tests;
 
 use BinaryCats\LobWebhooks\LobWebhooksServiceProvider;
-use CreateWebhookCallsTable;
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Exceptions\Handler;
