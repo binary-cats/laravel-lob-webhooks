@@ -21,7 +21,7 @@ abstract class TestCase extends OrchestraTestCase
     /**
      * Set up the environment.
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
@@ -45,8 +45,7 @@ abstract class TestCase extends OrchestraTestCase
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
-     *
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array
      */
     protected function getPackageProviders($app)
@@ -58,7 +57,8 @@ abstract class TestCase extends OrchestraTestCase
 
     protected function disableExceptionHandling()
     {
-        $this->app->instance(ExceptionHandler::class, new class extends Handler {
+        $this->app->instance(ExceptionHandler::class, new class extends Handler
+        {
             public function __construct()
             {
             }
@@ -77,9 +77,9 @@ abstract class TestCase extends OrchestraTestCase
     /**
      * Compile lob.com siangure.
      *
-     * @param  array       $payload
-     * @param  int         $timestamp
-     * @param  string|null $configKey
+     * @param  array  $payload
+     * @param  int  $timestamp
+     * @param  string|null  $configKey
      * @return string
      */
     protected function determineLobSignature(array $payload, $timestamp, string $configKey = null): string

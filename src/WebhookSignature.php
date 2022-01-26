@@ -53,6 +53,7 @@ final class WebhookSignature
      * True if the signature is valid.
      *
      * @return bool
+     *
      * @throws BinaryCats\LobWebhooks\Exceptions\SignatureVerificationException when validation fails
      */
     public function verify(): bool
@@ -82,7 +83,7 @@ final class WebhookSignature
     /**
      * Magically access items from signature array.
      *
-     * @param  string $attribute
+     * @param  string  $attribute
      * @return mixed
      */
     public function __get($attribute)
