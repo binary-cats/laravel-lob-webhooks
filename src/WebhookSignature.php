@@ -28,8 +28,8 @@ final class WebhookSignature
     /**
      * Create new Signature.
      *
-     * @param string[]  $signatureArray
-     * @param string $secret
+     * @param  string[]  $signatureArray
+     * @param  string  $secret
      */
     public function __construct(array $signatureArray, string $secret)
     {
@@ -41,7 +41,7 @@ final class WebhookSignature
      * Statis accessor into the class constructor.
      *
      * @param  array  $signatureArray
-     * @param  string $secret
+     * @param  string  $secret
      * @return $this
      */
     public static function make($signatureArray, string $secret): self
