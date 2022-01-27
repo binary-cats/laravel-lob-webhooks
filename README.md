@@ -109,7 +109,7 @@ If something goes wrong during the webhook request the thrown exception will be 
 
 There are two ways this package enables you to handle webhook requests: you can opt to queue a job or listen to the events the package will fire.
 
-**The package will ALWAYS cast mailgun events to lowercase - so your configured keys must be lowercase, too**
+**The package will ALWAYS cast events to lowercase - so your configured keys must be lowercase, too**
 
 ### Handling webhook requests using jobs
 If you want to do something when a specific event type comes in you can define a job that does the work. Here's an example of such a job:
