@@ -33,7 +33,7 @@ class LobSignatureValidator implements SignatureValidator
     public function isValid(Request $request, WebhookConfig $config): bool
     {
         $signatureArray = [
-            'token'     => $this->payload($request),
+            'token' => $this->payload($request),
             'timestamp' => $request->header('lob-signature-timestamp'),
             'signature' => $request->header('lob-signature'),
         ];
@@ -59,6 +59,7 @@ class LobSignatureValidator implements SignatureValidator
     {
         // Will decode the body into an object, not an array
         $decoded = json_decode($request->getContent());
+
         // recode back into string
         return json_encode($decoded, JSON_UNESCAPED_SLASHES);
     }

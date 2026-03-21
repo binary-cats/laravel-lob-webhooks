@@ -26,9 +26,9 @@ abstract class TestCase extends OrchestraTestCase
     {
         config()->set('database.default', 'sqlite');
         config()->set('database.connections.sqlite', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
         config()->set('lob-webhooks.signing_secret', 'secret');
     }
