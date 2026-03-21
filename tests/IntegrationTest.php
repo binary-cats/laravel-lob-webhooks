@@ -4,14 +4,12 @@ namespace Tests;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\WebhookClient\Models\WebhookCall;
 
 class IntegrationTest extends TestCase
 {
-    /**
-     * @return void
-     */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -24,8 +22,8 @@ class IntegrationTest extends TestCase
         cache()->clear();
     }
 
-    /** @test */
-    public function it_can_handle_a_valid_request()
+    #[Test]
+    public function it_can_handle_a_valid_request(): void
     {
         $payload = [
             'event_type' => [
@@ -61,7 +59,8 @@ class IntegrationTest extends TestCase
         $this->assertEquals($webhookCall->id, cache('dummyjob')->id);
     }
 
-    public function it_can_handle_a_valid_request_even_with_wrong_case()
+    #[Test]
+    public function it_can_handle_a_valid_request_even_with_wrong_case(): void
     {
         $payload = [
             'event_type' => [
@@ -95,8 +94,8 @@ class IntegrationTest extends TestCase
         $this->assertEquals($webhookCall->id, cache('dummyjob')->id);
     }
 
-    /** @test */
-    public function a_request_with_an_invalid_signature_wont_be_logged()
+    #[Test]
+    public function a_request_with_an_invalid_signature_wont_be_logged(): void
     {
         $payload = [
             'event_type' => [
@@ -121,8 +120,8 @@ class IntegrationTest extends TestCase
         $this->assertNull(cache('dummyjob'));
     }
 
-    /** @test */
-    public function a_request_with_an_invalid_payload_will_be_logged_but_events_and_jobs_will_not_be_dispatched()
+    #[Test]
+    public function a_request_with_an_invalid_payload_will_be_logged_but_events_and_jobs_will_not_be_dispatched(): void
     {
         $payload = ['invalid_payload'];
 
@@ -150,8 +149,8 @@ class IntegrationTest extends TestCase
         $this->assertNull(cache('dummyjob'));
     }
 
-    /** @test * */
-    public function a_request_with_a_config_key_will_use_the_correct_signing_secret()
+    #[Test]
+    public function a_request_with_a_config_key_will_use_the_correct_signing_secret(): void
     {
         config()->set('lob-webhooks.signing_secret', 'secret1');
         config()->set('lob-webhooks.signing_secret_somekey', 'secret2');
