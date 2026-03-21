@@ -19,13 +19,12 @@
         }
     ],
     "require": {
-        "php": "^8.0",
-        "illuminate/support": "^8.0|^9.0",
+        "php": "^8.2",
+        "illuminate/support": "^11.0|^12.0|^13.0",
         "spatie/laravel-webhook-client": "^3.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.0|^7.0",
-        "phpunit/phpunit": "^9.4"
+        "orchestra/testbench": "^9.0|^10.0|^11.0"
     },
     "autoload": {
         "psr-4": {
@@ -38,12 +37,12 @@
         }
     },
     "suggest": {
-            "binary-cats/laravel-mailgun-webhooks": "Handle Mailgun webhooks in your Laravel application"
+            "binary-cats/laravel-bigbluebutton-webhooks": "Handle BigBlueButton webhooks in your Laravel application",
+            "binary-cats/laravel-mailgun-webhooks": "Handle mailgun.com webhooks in your Laravel application",
+            "binary-cats/laravel-zoom-webhooks": "Handle Zoom webhooks in your Laravel application"
     },
     "scripts": {
-        "analyze": "./vendor/bin/phpstan analyse src --memory-limit=2G",
-        "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html coverage -d pcov.enabled",
-        "test": "./vendor/bin/phpunit --color=always -vvv"
+        "test": "./vendor/bin/phpunit"
     },
     "config": {
         "optimize-autoloader": true,
