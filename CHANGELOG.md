@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-lob-webhooks` will be documented in this file
 
+## v10.0 | Laravel 13 - 2026-03-21
+
+### What's Changed
+
+* Upgrade to support Laravel 13 by @cyrillkalita in https://github.com/binary-cats/laravel-lob-webhooks/pull/11
+
+**Full Changelog**: https://github.com/binary-cats/laravel-lob-webhooks/compare/9.0.0...10.0.0
+
 ## 9.0.0 - 2022-01-26
 
 - Drop support for PHP 7
